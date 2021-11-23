@@ -8,24 +8,22 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
 
 @JsonTypeInfo(
-	    use = JsonTypeInfo.Id.NAME,
-	    include = JsonTypeInfo.As.PROPERTY,
-	    property = "type")
-	@JsonSubTypes({
-	    @Type(value = ReporteNivelStock.class, name = "reporteNS"),
-		@Type(value = ReporteNivelStock.class, name = "itemsPOC"),
-		@Type(value = ReporteNivelStock.class, name = "itemsSOC"),
-		@Type(value = ReporteNivelStock.class, name = "itemsOC"),
-		@Type(value = ReporteNivelStock.class, name = "itemsOP")
-	    })
+		use = JsonTypeInfo.Id.NAME,
+		include = JsonTypeInfo.As.PROPERTY,
+		property = "type")
+@JsonSubTypes({
+		@Type(value = ReporteNivelStock.class, name = "reporteNS"),
+		@Type(value = PeticionOrdenCompra.class, name = "PeticionOrdenCompra"),
+		@Type(value = SolicitudOrdenCompra.class, name = "SolicitudOrdenCompra")
+})
 
 public class InfoComprasUIA {
 
 	private int id;
 	private String name="";
-	private String type="";
 	private String descripcion="";
 	private int pedidoProveedor=0;
+	private int clasificacion=-1;
 	private List<InfoComprasUIA> items;
 
 
@@ -46,15 +44,15 @@ public class InfoComprasUIA {
 	}
 
 	public InfoComprasUIA()
-	{		
+	{
 	}
-	
+
 	public InfoComprasUIA(int id, String name)
 	{
 		this.id=id;
 		this.name = name;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -67,7 +65,7 @@ public class InfoComprasUIA {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public List<InfoComprasUIA> getItems() {
 		return items;
 	}
@@ -76,13 +74,6 @@ public class InfoComprasUIA {
 		this.items =  items;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
 
 	public void print() {
 		System.out.println(this);
@@ -90,4 +81,13 @@ public class InfoComprasUIA {
 		System.out.println("Name:\t" + this.getName());
 	}
 
+	public int getClasificacion() {
+		return clasificacion;
+	}
+
+	public void setClasificacion(int i)
+	{
+		this.clasificacion=i;
+	}
 }
+

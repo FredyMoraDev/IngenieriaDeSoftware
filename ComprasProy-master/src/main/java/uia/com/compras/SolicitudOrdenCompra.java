@@ -3,75 +3,35 @@ package uia.com.compras;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SolicitudOrdenCompra extends InfoComprasUIA  {
-    private int cantidad;
-    private String unidad="";
-    private String codigo="";
-
+public class SolicitudOrdenCompra extends PeticionOrdenCompra {
+    private int vendedor=-1;
 
     @JsonCreator
     public SolicitudOrdenCompra(@JsonProperty("id")int id, @JsonProperty("name")String name,
                                 @JsonProperty("codigo")String codigo, @JsonProperty("unidad")String unidad,
-                                @JsonProperty("cantidad")int cantidad, String tipo)
+                                @JsonProperty("cantidad")int cantidad, @JsonProperty("vendedor")int vendedor,@JsonProperty("clasificacionvendedor")int clasificacionvendedor)
     {
-        super(id, name);
-        this.cantidad = cantidad;
-        this.unidad = unidad;
-        this.codigo = codigo;
-        this.setType(tipo);
+        super(id, name, codigo, unidad, cantidad);
+        this.vendedor = vendedor;
     }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getUnidad() {
-        return unidad;
-    }
-
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
     public SolicitudOrdenCompra() {
-        super(-1, "");
-    }
 
-    public void agregaItems(ListaReportesNivelStock miReporteNS)
+    }
+    public SolicitudOrdenCompra(PeticionOrdenCompra info)
     {
-        SolicitudOrdenCompra nodo;
-        for(int i=0; i<miReporteNS.getItems().size(); i++)
-        {
-            InfoComprasUIA miNodo = miReporteNS.getItems().get(i);
-            List<InfoComprasUIA> miLista;
-            if(miNodo.getPedidoProveedor() > 0)
-            {
-                nodo = new SolicitudOrdenCompra(miNodo.getId(), miNodo.getName(), miNodo.getDescripcion(),
-                        "PZA", miNodo.getPedidoProveedor(), "itemSOC");
-                if(this.getItems() == null)
-                {
-                    miLista = new ArrayList<InfoComprasUIA>();
-                    this.setItems((List<InfoComprasUIA>) miLista);
-                }
-                this.getItems().add(nodo);
-            }
-            miNodo.print();
-        }
-
+        super(info.getId(), info.getName(), info.getCodigo(), info.getUnidad(), info.getCantidad());
+        this.setClasificacion(info.getClasificacion());
     }
+
+
+
+
+    public int getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(int vendedor) {
+        this.vendedor = vendedor;
+    }
+
 }
